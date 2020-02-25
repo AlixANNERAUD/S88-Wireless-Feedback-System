@@ -39,36 +39,38 @@ void loop() {
 
 void Scan_Slave(void *pvParameters) {
   (void) pvParameters;
-  uint8_t Buffer[5] = {0, 0, 0, 0, 0};
-  Serial.print(F("Start Scanning All Slave ..."));
-  for(byte i = 0; i < NUMBER_SLAVE; i++) {
-    UDP.beginPacket(Slave_IP_Adress[i], UDP_PORT);
-    UDP.write('G');
-    UDP.endPacket();
-    UDP.parsePacket();
-    byte ii = 0;
-    while(UDP.read(Buffer, 5) == 0 && ii < 50) { //wait 5000 ms slave reply - check every 100 ms
-      Serial.println(F("Waiting For Slave ..."));
-      vTaskDelay(pdMS_TO_TICKS(100));
-      ii++;
-    }
-    if(ii > 50) { //if slave doesn't reply, its ways will be protected (occupy)
-      Serial.print(F("Slave "));
-      Serial.print(i);
-      Serial.println(F("Timed Out !"));
-      Serial.println(F("Protect Slave's Railways !"));
-      Buffer[0] = 255;
-      Buffer[1] = 255;
-    }
-    else { //update local register with the buffer
-      for(byte iii = 0; iii < 8; iii++) {
-        bitWrite(Slave_Input_Register[i], iii, bitRead(Buffer[0], iii));
+  for(;;) {
+    uint8_t Buffer[5] = {0, 0, 0, 0, 0};
+    Serial.println(F("Start Scanning All Slave ..."));
+    for(byte i = 0; i < NUMBER_SLAVE; i++) {
+      UDP.beginPacket(Slave_IP_Adress[i], UDP_PORT);
+      UDP.write('G');
+      UDP.endPacket();
+      UDP.parsePacket();
+      byte ii = 0;
+      while(UDP.read(Buffer, 5) == 0 && ii < 50) { //wait 5000 ms slave reply - check every 100 ms
+        Serial.println(F("Waiting For Slave ..."));
+        vTaskDelay(pdMS_TO_TICKS(100));
+        ii++;
       }
-      for(byte iii = 8; iii < 16; iii++) {
-        bitWrite(Slave_Input_Register[i], iii, bitRead(Buffer[1], iii));
+      if(ii > 50) { //if slave doesn't reply, its ways will be protected (occupy)
+        Serial.print(F("Slave "));
+        Serial.print(i);
+        Serial.println(F("Timed Out !"));
+        Serial.println(F("Protect Slave's Railways !"));
+        Buffer[0] = 255;
+        Buffer[1] = 255;
       }
+      else { //update local register with the buffer
+        for(byte iii = 0; iii < 8; iii++) {
+          bitWrite(Slave_Input_Register[i], iii, bitRead(Buffer[0], iii));
+        }
+        for(byte iii = 8; iii < 16; iii++) {
+          bitWrite(Slave_Input_Register[i], iii, bitRead(Buffer[1], iii));
+        }
+      }
+      vTaskDelay(10);
     }
-    vTaskDelay(10);
   }
 }
 
