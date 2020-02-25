@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "Gateway",
+			"path": "Gateway"
+		},
+		{
+			"name": "Slave",
+			"path": "Slave"
+		}
+	],
+	"settings": {}
+}
