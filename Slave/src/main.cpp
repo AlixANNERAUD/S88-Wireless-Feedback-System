@@ -2,7 +2,9 @@
 #include <main.h>
 #include <WiFi.h>
 
-WiFiUDP UDP;
+#include <Adafruit_INA219.h>
+
+
 
 void setup() {
   /Serial.begin(115200);
@@ -20,14 +22,14 @@ void setup() {
   Serial.print(F("Bridge Current IP Adress :"));
   Serial.println(WiFi.localIP());
   UDP.begin(UDP_PORT);
-  //Setup S88
-  pinMode(S88_Clock_Pin, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(S88_Clock_Pin), S88_Clock, RISING);
-  pinMode(S88_PS_Pin, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(S88_PS_Pin), S88_PS, RISING);
-  pinMode(S88_Data_Out_Pin, OUTPUT);
+  //Setup I2C
+  I2C_A.begin(I2C_A_SDA, I2C_A_SCL, 100000);
+  I2C_A.begin(I2C_B_SDA, I2C_B_SCL, 100000);
+
+
   //Task
   xTaskCreatePinnedToCore(Scan_Gateway, "Scan_Gateway", 4096, NULL, 2, &Scan_Gateway_Handle, 0);
+
 }
 
 void loop() {
@@ -45,9 +47,18 @@ void Scan_Gateway(void *pvParameters) {
     switch(Buffer[1]) {
       case 'G':
         
+        
       default:
         Serial.println(F("Unknow command"));
         break;
     }
   }
+}
+
+void Scan_Inputs(void *pvParameters) {
+  I2C_A_Input_Intensity[0] = I2C_A_INA219_A.getCurrent_mA();
+  for(byte i = 0; i < NUMBER_INPUTS_I2C_A; i++) {
+    if
+  }
+  I2C_B_Input_Intensity[0] = I2C_B_INA219_A.getCurrent_mA();
 }

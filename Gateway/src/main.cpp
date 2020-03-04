@@ -82,7 +82,7 @@ void S88_PS() {
 void S88_Clock() { //transmition clock for each bit
   digitalWrite(S88_Data_Out_Pin, bitRead(Slave_Input_Register[S88_Selected_Slave], S88_Selected_Input));
   S88_Selected_Input++;
-  if(S88_Selected_Input >= 15) {
+  if(S88_Selected_Input > 15) {
     S88_Selected_Input = 0;
     S88_Selected_Slave++;
   }
