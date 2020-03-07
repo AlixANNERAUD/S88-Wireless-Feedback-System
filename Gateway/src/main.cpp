@@ -40,11 +40,11 @@ void loop() {
 void Scan_Slave(void *pvParameters) {
   (void) pvParameters;
   for(;;) {
-    uint8_t Buffer[5] = {0, 0, 0, 0, 0};
+    uint8_t Buffer[10] = {0, 0, 0, 0, 0};
     Serial.println(F("Start Scanning All Slave ..."));
     for(byte i = 0; i < NUMBER_SLAVE; i++) {
       UDP.beginPacket(Slave_IP_Adress[i], UDP_PORT);
-      UDP.write('G');
+      UDP.write('S');
       UDP.endPacket();
       UDP.parsePacket();
       byte ii = 0;
@@ -58,8 +58,8 @@ void Scan_Slave(void *pvParameters) {
         Serial.print(i);
         Serial.println(F("Timed Out !"));
         Serial.println(F("Protect Slave's Railways !"));
-        Buffer[0] = 255;
         Buffer[1] = 255;
+        Buffer[2] = 255;
       }
       else { //update local register with the buffer
         for(byte iii = 0; iii < 8; iii++) {
