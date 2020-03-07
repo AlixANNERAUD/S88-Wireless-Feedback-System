@@ -24,6 +24,40 @@ void setup ()
   //Setup I2C
   I2C_A.begin(I2C_A_SDA, I2C_A_SCL, 100000);
   I2C_A.begin(I2C_B_SDA, I2C_B_SCL, 100000);
+  //Setup INA219
+  I2C_A_INA219_A.begin(&I2C_A);
+  I2C_A_INA219_B.begin(&I2C_A);
+  I2C_A_INA219_C.begin(&I2C_A);
+  I2C_A_INA219_D.begin(&I2C_A);
+  I2C_A_INA219_E.begin(&I2C_A);
+  I2C_A_INA219_F.begin(&I2C_A);
+  I2C_A_INA219_G.begin(&I2C_A);
+  I2C_A_INA219_H.begin(&I2C_A);
+  I2C_A_INA219_I.begin(&I2C_A);
+  I2C_A_INA219_J.begin(&I2C_A);
+  I2C_A_INA219_K.begin(&I2C_A);
+  I2C_A_INA219_L.begin(&I2C_A);
+  I2C_A_INA219_M.begin(&I2C_A);
+  I2C_A_INA219_N.begin(&I2C_A);
+  I2C_A_INA219_O.begin(&I2C_A);
+  I2C_A_INA219_P.begin(&I2C_A);
+
+  I2C_B_INA219_A.begin(&I2C_B);
+  I2C_B_INA219_B.begin(&I2C_B);
+  I2C_B_INA219_C.begin(&I2C_B);
+  I2C_B_INA219_D.begin(&I2C_B);
+  I2C_B_INA219_E.begin(&I2C_B);
+  I2C_B_INA219_F.begin(&I2C_B);
+  I2C_B_INA219_G.begin(&I2C_B);
+  I2C_B_INA219_H.begin(&I2C_B);
+  I2C_B_INA219_I.begin(&I2C_B);
+  I2C_B_INA219_J.begin(&I2C_B);
+  I2C_B_INA219_K.begin(&I2C_B);
+  I2C_B_INA219_L.begin(&I2C_B);
+  I2C_B_INA219_M.begin(&I2C_B);
+  I2C_B_INA219_N.begin(&I2C_B);
+  I2C_B_INA219_O.begin(&I2C_B);
+  I2C_B_INA219_P.begin(&I2C_B);
   //Set Task
   xTaskCreatePinnedToCore(Scan_Gateway, "Scan_Gateway", 4096, NULL, 2, &Scan_Gateway_Handle, 0);
   xTaskCreatePinnedToCore(Scan_Inputs, "Scan_Inputs", 4096, NULL, 2, &Scan_Inputs_Handle, 0);

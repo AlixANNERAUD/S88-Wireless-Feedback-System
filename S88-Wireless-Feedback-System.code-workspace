@@ -10,6 +10,10 @@
 		{
 			"name": "Slave",
 			"path": "Slave"
+		},
+		{
+			"name": "INA219 Test",
+			"path": "Test\\INA219 Test"
 		}
 	],
 	"settings": {}
